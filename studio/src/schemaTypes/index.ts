@@ -8,8 +8,14 @@ import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import button from './objects/button'
 import {blockContentTextOnly} from './objects/blockContentTextOnly'
-
-// Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
+import {hero} from './objects/hero'
+import {marquee} from './objects/marquee'
+import {heroSplit} from './objects/heroSplit'
+import {servicesList} from './objects/servicesList'
+import {featureCards} from './objects/featureCards'
+import {teamHighlight} from './objects/teamHighlight'
+import {ctaBanner} from './objects/ctaBanner'
+import {infoBlock} from './objects/infoBlock'
 
 export const schemaTypes = [
   // Singletons
@@ -25,4 +31,13 @@ export const schemaTypes = [
   infoSection,
   callToAction,
   link,
+  // Homepage sections
+  hero,
+  marquee,
+  heroSplit,
+  servicesList,
+  featureCards,
+  teamHighlight,
+  ctaBanner,
+  infoBlock,
 ]

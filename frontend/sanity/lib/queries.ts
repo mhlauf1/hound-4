@@ -27,6 +27,81 @@ const linkFields = /* groq */ `
       }
 `
 
+const buttonFields = /* groq */ `
+  button {
+    ...,
+    ${linkFields}
+  }
+`
+
+const pageBuilderProjections = /* groq */ `
+  ...,
+  _type == "callToAction" => {
+    ...,
+    ${buttonFields}
+  },
+  _type == "infoSection" => {
+    content[]{
+      ...,
+      markDefs[]{
+        ...,
+        ${linkReference}
+      }
+    }
+  },
+  _type == "hero" => {
+    ...,
+    serviceQuickLinks[]{
+      ...,
+      ${linkFields}
+    }
+  },
+  _type == "heroSplit" => {
+    ...,
+    ${buttonFields}
+  },
+  _type == "servicesList" => {
+    ...,
+    services[]{
+      ...,
+      ${buttonFields}
+    }
+  },
+  _type == "featureCards" => {
+    ...,
+    features[]{
+      ...,
+      ${buttonFields}
+    }
+  },
+  _type == "teamHighlight" => {
+    ...,
+    ${buttonFields}
+  },
+  _type == "ctaBanner" => {
+    ...,
+    ${buttonFields}
+  },
+  _type == "infoBlock" => {
+    ...,
+    ${buttonFields}
+  },
+`
+
+export const homePageQuery = defineQuery(`
+  *[_type == 'page' && slug.current == "home"][0]{
+    _id,
+    _type,
+    name,
+    slug,
+    heading,
+    subheading,
+    "pageBuilder": pageBuilder[]{
+      ${pageBuilderProjections}
+    },
+  }
+`)
+
 export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
     _id,
@@ -36,24 +111,46 @@ export const getPageQuery = defineQuery(`
     heading,
     subheading,
     "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "callToAction" => {
-        ...,
-        button {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "infoSection" => {
-        content[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        }
-      },
+      ${pageBuilderProjections}
     },
+  }
+`)
+
+export const navSettingsQuery = defineQuery(`
+  *[_type == "settings"][0]{
+    title,
+    navLinks[]{
+      ...,
+      ${linkFields}
+    },
+    ctaButton{
+      ...,
+      ${linkFields}
+    }
+  }
+`)
+
+export const footerSettingsQuery = defineQuery(`
+  *[_type == "settings"][0]{
+    title,
+    tagline,
+    founded,
+    address,
+    phone,
+    email,
+    parentCompany,
+    footerNavGroups[]{
+      ...,
+      links[]{
+        ...,
+        ${linkFields}
+      }
+    },
+    legalLinks[]{
+      ...,
+      ${linkFields}
+    },
+    socialLinks
   }
 `)
 

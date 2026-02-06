@@ -2,6 +2,23 @@
 
 @plugin "@tailwindcss/typography";
 
+/* Switzer Variable — self-hosted from Fontshare */
+@font-face {
+  font-family: 'Switzer Variable';
+  src: url('/fonts/SwitzerVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Switzer Variable';
+  src: url('/fonts/SwitzerVariable-Italic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+}
+
 @layer base {
   h1,
   h2,
@@ -9,37 +26,78 @@
   h4,
   h5,
   h6 {
-    @apply font-medium tracking-tight;
+    @apply tracking-tight;
   }
 }
 
 @utility container {
-  margin: 0 auto;
-  padding: 0 2rem;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --shadow-layer: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
-
-  --color-framework: #000;
-  --color-black: #0b0b0b;
+  /* Colors */
+  --color-cream: #FFFCF5;
+  --color-blue: #84AFE7;
+  --color-dark: #363440;
+  --color-light: #F3F4F4;
+  --color-muted: #363440B3;
   --color-white: #fff;
-  --color-brand: #f50;
-  --color-blue: #0052ff;
-  --color-yellow: #cdea19;
-  --color-gray-50: #f6f6f8;
-  --color-gray-100: #eeeef1;
-  --color-gray-200: #e3e4e8;
-  --color-gray-300: #bbbdc9;
-  --color-gray-400: #9499ad;
-  --color-gray-500: #727892;
-  --color-gray-600: #515870;
-  --color-gray-700: #383d51;
-  --color-gray-800: #252837;
-  --color-gray-900: #1b1d27;
-  --color-gray-950: #13141b;
+  --color-black: #000;
 
+  /* Typography — Font Family */
+  --font-sans: 'Switzer Variable', 'Switzer', system-ui, sans-serif;
+
+  /* Typography — Font Size / Line Height / Letter Spacing */
+  --font-size-hero: 5.25rem;
+  --font-size-hero--line-height: 0.9;
+  --font-size-hero--letter-spacing: -0.012em;
+
+  --font-size-section: 3.25rem;
+  --font-size-section--line-height: 0.95;
+  --font-size-section--letter-spacing: -0.01em;
+
+  --font-size-card: 2.25rem;
+  --font-size-card--line-height: 1.1;
+
+  --font-size-body-lg: 1.5rem;
+  --font-size-body-lg--line-height: 1.5;
+
+  --font-size-body: 1.25rem;
+  --font-size-body--line-height: 1.5;
+
+  --font-size-label: 0.8125rem;
+  --font-size-label--line-height: 1.4;
+  --font-size-label--letter-spacing: 0.1em;
+
+  /* Transitions */
   --default-transition-duration: 250ms;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation-play-state: paused;
+  }
 }

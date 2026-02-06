@@ -13,6 +13,145 @@
  */
 
 // Source: ../sanity.schema.json
+export type Stat = {
+  value?: string
+  suffix?: string
+}
+
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type ObjectImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "object.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type FeaturesObjectImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "features.object.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type InfoBlock = {
+  _type: 'infoBlock'
+  label?: string
+  headline: string
+  body?: BlockContentTextOnly
+  button?: Button
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  secondaryBody?: BlockContentTextOnly
+  address?: string
+  phone?: string
+}
+
+export type CtaBanner = {
+  _type: 'ctaBanner'
+  backgroundImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  headline: string
+  button?: Button
+}
+
+export type TeamHighlight = {
+  _type: 'teamHighlight'
+  label?: string
+  headline: string
+  button?: Button
+  teamPhoto?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type FeatureCards = {
+  _type: 'featureCards'
+  label?: string
+  headline: string
+  stat?: Stat
+  features?: Array<{
+    title: string
+    image?: FeaturesObjectImage
+    button?: Button
+    _key: string
+  }>
+}
+
+export type ServicesList = {
+  _type: 'servicesList'
+  label?: string
+  headline: string
+  services: Array<{
+    title: string
+    description?: string
+    image?: ObjectImage
+    button?: Button
+    _key: string
+  }>
+}
+
+export type HeroSplit = {
+  _type: 'heroSplit'
+  label?: string
+  headline: string
+  description?: BlockContentTextOnly
+  button?: Button
+  rating?: number
+  reviewCount?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  showBlueAccent?: boolean
+}
+
+export type Marquee = {
+  _type: 'marquee'
+  items: Array<string>
+}
+
+export type Hero = {
+  _type: 'hero'
+  backgroundImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  headline: string
+  serviceQuickLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+}
+
 export type PageReference = {
   _ref: string
   _type: 'reference'
@@ -34,13 +173,6 @@ export type Link = {
   page?: PageReference
   post?: PostReference
   openInNewTab?: boolean
-}
-
-export type SanityImageAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
 export type CallToAction = {
@@ -154,6 +286,37 @@ export type Settings = {
     _type: 'block'
     _key: string
   }>
+  tagline?: string
+  founded?: string
+  navLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+  ctaButton?: Button
+  footerNavGroups?: Array<{
+    title: string
+    links?: Array<{
+      label: string
+      link?: Link
+      _key: string
+    }>
+    _key: string
+  }>
+  legalLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+  parentCompany?: string
+  socialLinks?: Array<{
+    platform?: 'facebook' | 'instagram' | 'tiktok' | 'youtube' | 'twitter'
+    url: string
+    _key: string
+  }>
+  address?: string
+  phone?: string
+  email?: string
   ogImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -189,9 +352,33 @@ export type Page = {
   _rev: string
   name: string
   slug: Slug
-  heading: string
+  heading?: string
   subheading?: string
   pageBuilder?: Array<
+    | ({
+        _key: string
+      } & Hero)
+    | ({
+        _key: string
+      } & Marquee)
+    | ({
+        _key: string
+      } & HeroSplit)
+    | ({
+        _key: string
+      } & ServicesList)
+    | ({
+        _key: string
+      } & FeatureCards)
+    | ({
+        _key: string
+      } & TeamHighlight)
+    | ({
+        _key: string
+      } & CtaBanner)
+    | ({
+        _key: string
+      } & InfoBlock)
     | ({
         _key: string
       } & CallToAction)
@@ -488,10 +675,21 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | Stat
+  | SanityImageAssetReference
+  | ObjectImage
+  | FeaturesObjectImage
+  | InfoBlock
+  | CtaBanner
+  | TeamHighlight
+  | FeatureCards
+  | ServicesList
+  | HeroSplit
+  | Marquee
+  | Hero
   | PageReference
   | PostReference
   | Link
-  | SanityImageAssetReference
   | CallToAction
   | InfoSection
   | BlockContentTextOnly
@@ -561,6 +759,37 @@ export type SettingsQueryResult = {
     _type: 'block'
     _key: string
   }>
+  tagline?: string
+  founded?: string
+  navLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+  ctaButton?: Button
+  footerNavGroups?: Array<{
+    title: string
+    links?: Array<{
+      label: string
+      link?: Link
+      _key: string
+    }>
+    _key: string
+  }>
+  legalLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+  parentCompany?: string
+  socialLinks?: Array<{
+    platform?: 'facebook' | 'instagram' | 'tiktok' | 'twitter' | 'youtube'
+    url: string
+    _key: string
+  }>
+  address?: string
+  phone?: string
+  email?: string
   ogImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -573,14 +802,14 @@ export type SettingsQueryResult = {
 } | null
 
 // Source: sanity/lib/queries.ts
-// Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },  }
-export type GetPageQueryResult = {
+// Variable: homePageQuery
+// Query: *[_type == 'page' && slug.current == "home"][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{        ...,  _type == "callToAction" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoSection" => {    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "hero" => {    ...,    serviceQuickLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "heroSplit" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "servicesList" => {    ...,    services[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "featureCards" => {    ...,    features[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "teamHighlight" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "ctaBanner" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoBlock" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },    },  }
+export type HomePageQueryResult = {
   _id: string
   _type: 'page'
   name: string
   slug: Slug
-  heading: string
+  heading: string | null
   subheading: string | null
   pageBuilder: Array<
     | {
@@ -610,6 +839,136 @@ export type GetPageQueryResult = {
         }
         theme?: 'dark' | 'light'
         contentAlignment?: 'imageFirst' | 'textFirst'
+      }
+    | {
+        _key: string
+        _type: 'ctaBanner'
+        backgroundImage?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        headline: string
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'featureCards'
+        label?: string
+        headline: string
+        stat?: Stat
+        features: Array<{
+          title: string
+          image?: FeaturesObjectImage
+          button: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post'
+              href?: string
+              page: string | null
+              post: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'hero'
+        backgroundImage: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        headline: string
+        serviceQuickLinks: Array<{
+          label: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'heroSplit'
+        label?: string
+        headline: string
+        description?: BlockContentTextOnly
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        rating?: number
+        reviewCount?: string
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        showBlueAccent?: boolean
+      }
+    | {
+        _key: string
+        _type: 'infoBlock'
+        label?: string
+        headline: string
+        body?: BlockContentTextOnly
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        secondaryBody?: BlockContentTextOnly
+        address?: string
+        phone?: string
       }
     | {
         _key: string
@@ -650,7 +1009,403 @@ export type GetPageQueryResult = {
             }
         > | null
       }
+    | {
+        _key: string
+        _type: 'marquee'
+        items: Array<string>
+      }
+    | {
+        _key: string
+        _type: 'servicesList'
+        label?: string
+        headline: string
+        services: Array<{
+          title: string
+          description?: string
+          image?: ObjectImage
+          button: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post'
+              href?: string
+              page: string | null
+              post: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'teamHighlight'
+        label?: string
+        headline: string
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        teamPhoto?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+      }
   > | null
+} | null
+
+// Source: sanity/lib/queries.ts
+// Variable: getPageQuery
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{        ...,  _type == "callToAction" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoSection" => {    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "hero" => {    ...,    serviceQuickLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "heroSplit" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "servicesList" => {    ...,    services[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "featureCards" => {    ...,    features[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "teamHighlight" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "ctaBanner" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoBlock" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },    },  }
+export type GetPageQueryResult = {
+  _id: string
+  _type: 'page'
+  name: string
+  slug: Slug
+  heading: string | null
+  subheading: string | null
+  pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'callToAction'
+        eyebrow?: string
+        heading: string
+        body?: BlockContentTextOnly
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        theme?: 'dark' | 'light'
+        contentAlignment?: 'imageFirst' | 'textFirst'
+      }
+    | {
+        _key: string
+        _type: 'ctaBanner'
+        backgroundImage?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        headline: string
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'featureCards'
+        label?: string
+        headline: string
+        stat?: Stat
+        features: Array<{
+          title: string
+          image?: FeaturesObjectImage
+          button: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post'
+              href?: string
+              page: string | null
+              post: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'hero'
+        backgroundImage: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        headline: string
+        serviceQuickLinks: Array<{
+          label: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'heroSplit'
+        label?: string
+        headline: string
+        description?: BlockContentTextOnly
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        rating?: number
+        reviewCount?: string
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        showBlueAccent?: boolean
+      }
+    | {
+        _key: string
+        _type: 'infoBlock'
+        label?: string
+        headline: string
+        body?: BlockContentTextOnly
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        secondaryBody?: BlockContentTextOnly
+        address?: string
+        phone?: string
+      }
+    | {
+        _key: string
+        _type: 'infoSection'
+        heading?: string
+        subheading?: string
+        content: Array<
+          | {
+              children?: Array<{
+                marks?: Array<string>
+                text?: string
+                _type: 'span'
+                _key: string
+              }>
+              style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+              listItem?: 'bullet' | 'number'
+              markDefs: Array<{
+                linkType?: 'href' | 'page' | 'post'
+                href?: string
+                page: string | null
+                post: string | null
+                openInNewTab?: boolean
+                _type: 'link'
+                _key: string
+              }> | null
+              level?: number
+              _type: 'block'
+              _key: string
+            }
+          | {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+              _key: string
+              markDefs: null
+            }
+        > | null
+      }
+    | {
+        _key: string
+        _type: 'marquee'
+        items: Array<string>
+      }
+    | {
+        _key: string
+        _type: 'servicesList'
+        label?: string
+        headline: string
+        services: Array<{
+          title: string
+          description?: string
+          image?: ObjectImage
+          button: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post'
+              href?: string
+              page: string | null
+              post: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'teamHighlight'
+        label?: string
+        headline: string
+        button: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        teamPhoto?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+      }
+  > | null
+} | null
+
+// Source: sanity/lib/queries.ts
+// Variable: navSettingsQuery
+// Query: *[_type == "settings"][0]{    title,    navLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    ctaButton{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  }
+export type NavSettingsQueryResult = {
+  title: string
+  navLinks: Array<{
+    label: string
+    link: {
+      _type: 'link'
+      linkType?: 'href' | 'page' | 'post'
+      href?: string
+      page: string | null
+      post: string | null
+      openInNewTab?: boolean
+    } | null
+    _key: string
+  }> | null
+  ctaButton: {
+    _type: 'button'
+    buttonText?: string
+    link: {
+      _type: 'link'
+      linkType?: 'href' | 'page' | 'post'
+      href?: string
+      page: string | null
+      post: string | null
+      openInNewTab?: boolean
+    } | null
+  } | null
+} | null
+
+// Source: sanity/lib/queries.ts
+// Variable: footerSettingsQuery
+// Query: *[_type == "settings"][0]{    title,    tagline,    founded,    address,    phone,    email,    parentCompany,    footerNavGroups[]{      ...,      links[]{        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }      }    },    legalLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    socialLinks  }
+export type FooterSettingsQueryResult = {
+  title: string
+  tagline: string | null
+  founded: string | null
+  address: string | null
+  phone: string | null
+  email: string | null
+  parentCompany: string | null
+  footerNavGroups: Array<{
+    title: string
+    links: Array<{
+      label: string
+      link: {
+        _type: 'link'
+        linkType?: 'href' | 'page' | 'post'
+        href?: string
+        page: string | null
+        post: string | null
+        openInNewTab?: boolean
+      } | null
+      _key: string
+    }> | null
+    _key: string
+  }> | null
+  legalLinks: Array<{
+    label: string
+    link: {
+      _type: 'link'
+      linkType?: 'href' | 'page' | 'post'
+      href?: string
+      page: string | null
+      post: string | null
+      openInNewTab?: boolean
+    } | null
+    _key: string
+  }> | null
+  socialLinks: Array<{
+    platform?: 'facebook' | 'instagram' | 'tiktok' | 'twitter' | 'youtube'
+    url: string
+    _key: string
+  }> | null
 } | null
 
 // Source: sanity/lib/queries.ts
@@ -817,7 +1572,10 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "settings"][0]': SettingsQueryResult
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
+    '\n  *[_type == \'page\' && slug.current == "home"][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      \n  ...,\n  _type == "callToAction" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoSection" => {\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n    }\n  },\n  _type == "hero" => {\n    ...,\n    serviceQuickLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  },\n  _type == "heroSplit" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "servicesList" => {\n    ...,\n    services[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "featureCards" => {\n    ...,\n    features[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "teamHighlight" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "ctaBanner" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoBlock" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n\n    },\n  }\n': HomePageQueryResult
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      \n  ...,\n  _type == "callToAction" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoSection" => {\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n    }\n  },\n  _type == "hero" => {\n    ...,\n    serviceQuickLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  },\n  _type == "heroSplit" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "servicesList" => {\n    ...,\n    services[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "featureCards" => {\n    ...,\n    features[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "teamHighlight" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "ctaBanner" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoBlock" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n\n    },\n  }\n': GetPageQueryResult
+    '\n  *[_type == "settings"][0]{\n    title,\n    navLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    },\n    ctaButton{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  }\n': NavSettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    title,\n    tagline,\n    founded,\n    address,\n    phone,\n    email,\n    parentCompany,\n    footerNavGroups[]{\n      ...,\n      links[]{\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n      }\n    },\n    legalLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    },\n    socialLinks\n  }\n': FooterSettingsQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': MorePostsQueryResult

@@ -13,6 +13,145 @@
  */
 
 // Source: ../sanity.schema.json
+export type Stat = {
+  value?: string
+  suffix?: string
+}
+
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type ObjectImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "object.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type FeaturesObjectImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "features.object.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type InfoBlock = {
+  _type: 'infoBlock'
+  label?: string
+  headline: string
+  body?: BlockContentTextOnly
+  button?: Button
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  secondaryBody?: BlockContentTextOnly
+  address?: string
+  phone?: string
+}
+
+export type CtaBanner = {
+  _type: 'ctaBanner'
+  backgroundImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  headline: string
+  button?: Button
+}
+
+export type TeamHighlight = {
+  _type: 'teamHighlight'
+  label?: string
+  headline: string
+  button?: Button
+  teamPhoto?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type FeatureCards = {
+  _type: 'featureCards'
+  label?: string
+  headline: string
+  stat?: Stat
+  features?: Array<{
+    title: string
+    image?: FeaturesObjectImage
+    button?: Button
+    _key: string
+  }>
+}
+
+export type ServicesList = {
+  _type: 'servicesList'
+  label?: string
+  headline: string
+  services: Array<{
+    title: string
+    description?: string
+    image?: ObjectImage
+    button?: Button
+    _key: string
+  }>
+}
+
+export type HeroSplit = {
+  _type: 'heroSplit'
+  label?: string
+  headline: string
+  description?: BlockContentTextOnly
+  button?: Button
+  rating?: number
+  reviewCount?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  showBlueAccent?: boolean
+}
+
+export type Marquee = {
+  _type: 'marquee'
+  items: Array<string>
+}
+
+export type Hero = {
+  _type: 'hero'
+  backgroundImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  headline: string
+  serviceQuickLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+}
+
 export type PageReference = {
   _ref: string
   _type: 'reference'
@@ -34,13 +173,6 @@ export type Link = {
   page?: PageReference
   post?: PostReference
   openInNewTab?: boolean
-}
-
-export type SanityImageAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
 export type CallToAction = {
@@ -154,6 +286,37 @@ export type Settings = {
     _type: 'block'
     _key: string
   }>
+  tagline?: string
+  founded?: string
+  navLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+  ctaButton?: Button
+  footerNavGroups?: Array<{
+    title: string
+    links?: Array<{
+      label: string
+      link?: Link
+      _key: string
+    }>
+    _key: string
+  }>
+  legalLinks?: Array<{
+    label: string
+    link?: Link
+    _key: string
+  }>
+  parentCompany?: string
+  socialLinks?: Array<{
+    platform?: 'facebook' | 'instagram' | 'tiktok' | 'youtube' | 'twitter'
+    url: string
+    _key: string
+  }>
+  address?: string
+  phone?: string
+  email?: string
   ogImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -189,9 +352,33 @@ export type Page = {
   _rev: string
   name: string
   slug: Slug
-  heading: string
+  heading?: string
   subheading?: string
   pageBuilder?: Array<
+    | ({
+        _key: string
+      } & Hero)
+    | ({
+        _key: string
+      } & Marquee)
+    | ({
+        _key: string
+      } & HeroSplit)
+    | ({
+        _key: string
+      } & ServicesList)
+    | ({
+        _key: string
+      } & FeatureCards)
+    | ({
+        _key: string
+      } & TeamHighlight)
+    | ({
+        _key: string
+      } & CtaBanner)
+    | ({
+        _key: string
+      } & InfoBlock)
     | ({
         _key: string
       } & CallToAction)
@@ -488,10 +675,21 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | Stat
+  | SanityImageAssetReference
+  | ObjectImage
+  | FeaturesObjectImage
+  | InfoBlock
+  | CtaBanner
+  | TeamHighlight
+  | FeatureCards
+  | ServicesList
+  | HeroSplit
+  | Marquee
+  | Hero
   | PageReference
   | PostReference
   | Link
-  | SanityImageAssetReference
   | CallToAction
   | InfoSection
   | BlockContentTextOnly

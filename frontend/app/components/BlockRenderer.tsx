@@ -2,6 +2,14 @@ import React from 'react'
 
 import Cta from '@/app/components/Cta'
 import Info from '@/app/components/InfoSection'
+import Hero from '@/app/components/sections/Hero'
+import Marquee from '@/app/components/sections/Marquee'
+import HeroSplit from '@/app/components/sections/HeroSplit'
+import ServicesList from '@/app/components/sections/ServicesList'
+import FeatureCards from '@/app/components/sections/FeatureCards'
+import TeamHighlight from '@/app/components/sections/TeamHighlight'
+import CtaBanner from '@/app/components/sections/CtaBanner'
+import InfoBlock from '@/app/components/sections/InfoBlock'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
 
@@ -19,14 +27,23 @@ type BlocksType = {
 const Blocks = {
   callToAction: Cta,
   infoSection: Info,
+  hero: Hero,
+  marquee: Marquee,
+  heroSplit: HeroSplit,
+  servicesList: ServicesList,
+  featureCards: FeatureCards,
+  teamHighlight: TeamHighlight,
+  ctaBanner: CtaBanner,
+  infoBlock: InfoBlock,
 } as BlocksType
 
-/**
- * Used by the <PageBuilder>, this component renders a the component that matches the block type.
- */
+// Full-bleed sections don't get container wrapping
+const fullBleedTypes = new Set(['hero', 'marquee', 'ctaBanner'])
+
 export default function BlockRenderer({block, index, pageId, pageType}: BlockProps) {
-  // Block does exist
   if (typeof Blocks[block._type] !== 'undefined') {
+    const isFullBleed = fullBleedTypes.has(block._type)
+
     return (
       <div
         key={block._key}
@@ -36,20 +53,30 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
           path: `pageBuilder[_key=="${block._key}"]`,
         }).toString()}
       >
-        {React.createElement(Blocks[block._type], {
-          key: block._key,
-          block: block,
-          index: index,
-          pageId: pageId,
-          pageType: pageType,
-        })}
+        {isFullBleed ? (
+          React.createElement(Blocks[block._type], {
+            key: block._key,
+            block,
+            index,
+            pageId,
+            pageType,
+          })
+        ) : (
+          React.createElement(Blocks[block._type], {
+            key: block._key,
+            block,
+            index,
+            pageId,
+            pageType,
+          })
+        )}
       </div>
     )
   }
-  // Block doesn't exist yet
+
   return React.createElement(
     () => (
-      <div className="w-full bg-gray-100 text-center text-gray-500 p-20 rounded">
+      <div className="w-full bg-light text-center text-muted p-20 rounded-xl">
         A &ldquo;{block._type}&rdquo; block hasn&apos;t been created
       </div>
     ),

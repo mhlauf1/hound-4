@@ -20,7 +20,7 @@ export default function Avatar({person, date, small = false}: Props) {
   const {firstName, lastName, picture} = person
 
   return (
-    <div className="flex items-center font-mono">
+    <div className="flex items-center">
       {picture?.asset?._ref ? (
         <div className={`${small ? 'h-6 w-6 mr-2' : 'h-9 w-9 mr-4'}`}>
           <Image
@@ -43,7 +43,7 @@ export default function Avatar({person, date, small = false}: Props) {
             {firstName} {lastName}
           </div>
         )}
-        <div className={`text-gray-500 ${small ? 'text-xs' : 'text-sm'}`}>
+        <div className={`text-muted ${small ? 'text-xs' : 'text-sm'}`}>
           <DateComponent dateString={date} />
         </div>
       </div>
