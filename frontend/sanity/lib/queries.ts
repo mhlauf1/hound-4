@@ -51,10 +51,7 @@ const pageBuilderProjections = /* groq */ `
   },
   _type == "hero" => {
     ...,
-    serviceQuickLinks[]{
-      ...,
-      ${linkFields}
-    }
+    ${buttonFields}
   },
   _type == "heroSplit" => {
     ...,
@@ -119,6 +116,7 @@ export const getPageQuery = defineQuery(`
 export const navSettingsQuery = defineQuery(`
   *[_type == "settings"][0]{
     title,
+    logo,
     navLinks[]{
       ...,
       ${linkFields}

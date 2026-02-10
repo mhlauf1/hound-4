@@ -2,6 +2,7 @@ import {PortableTextBlock} from 'next-sanity'
 
 import SectionLabel from '@/app/components/SectionLabel'
 import Button from '@/app/components/Button'
+import FadeIn from '@/app/components/FadeIn'
 import {Star} from '@/app/components/icons'
 import PortableText from '@/app/components/PortableText'
 import Image from '@/app/components/SanityImage'
@@ -23,60 +24,51 @@ export default function HeroSplit({block}: HeroSplitProps) {
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left content */}
-          <div className="flex flex-col gap-6">
-            {label && <SectionLabel text={label} />}
+          <div className="flex justify-between h-full flex-col gap-6">
+            <FadeIn variant="soft-fade">
+              {label && <SectionLabel text={label} />}
 
-            {headline && (
-              <h2 className="text-3xl font-normal sm:text-4xl lg:text-section lg:leading-[0.95] lg:tracking-[-0.01em]">
-                {headline}
-              </h2>
-            )}
+              {headline && (
+                <h2 className="text-4xl font-normal mt-2 sm:text-5xl lg:text-section leading-[1.2]">
+                  {headline}
+                </h2>
+              )}
+            </FadeIn>
+            <FadeIn variant="soft-fade" delay={150} className="bg-blue-50 p-12 rounded-xl py-12">
+              {description && (
+                <PortableText
+                  value={description as PortableTextBlock[]}
+                  className="max-w-2xl text-lg text-dark/80 sm:text-xl"
+                />
+              )}
 
-            {description && (
-              <PortableText
-                value={description as PortableTextBlock[]}
-                className="text-body text-muted prose-p:text-muted"
-              />
-            )}
-
-            {button?.buttonText && button?.link && (
-              <div>
-                <Button text={button.buttonText} link={button.link as DereferencedLink} />
-              </div>
-            )}
-
-            {/* Star rating */}
-            {rating && (
-              <div className="flex items-center gap-3">
-                <div className="flex gap-0.5">
-                  {Array.from({length: rating}).map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-blue" />
-                  ))}
+              {button?.buttonText && button?.link && (
+                <div className="mt-6">
+                  <Button text={button.buttonText} link={button.link as DereferencedLink} />
                 </div>
-                {reviewCount && (
-                  <span className="text-sm text-muted">{reviewCount}</span>
-                )}
-              </div>
-            )}
+              )}
+            </FadeIn>
           </div>
 
           {/* Right image */}
-          <div className="relative">
+          <FadeIn variant="soft-fade" delay={200} className="relative">
             {showBlueAccent && (
-              <div className="absolute -bottom-4 -left-4 -z-10 h-32 w-32 rounded-xl bg-blue lg:-bottom-6 lg:-left-6 lg:h-48 lg:w-48" />
+              <div className="absolute -top-4 -right-4 -bottom-3 left-8 -z-10 rounded-xl bg-blue lg:-top-6 lg:-right-6 lg:-bottom-4 lg:left-12" />
             )}
             {image?.asset?._ref && (
-              <Image
-                id={image.asset._ref}
-                alt={headline || ''}
-                width={640}
-                crop={image.crop}
-                hotspot={image.hotspot}
-                mode="cover"
-                className="rounded-xl"
-              />
+              <div className="max-h-[500px] lg:max-h-[700px] overflow-hidden rounded-xl">
+                <Image
+                  id={image.asset._ref}
+                  alt={headline || ''}
+                  width={640}
+                  crop={image.crop}
+                  hotspot={image.hotspot}
+                  mode="cover"
+                  className="rounded-xl"
+                />
+              </div>
             )}
-          </div>
+          </FadeIn>
         </div>
       </div>
     </section>

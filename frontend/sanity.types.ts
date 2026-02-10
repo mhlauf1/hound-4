@@ -145,11 +145,8 @@ export type Hero = {
     _type: 'image'
   }
   headline: string
-  serviceQuickLinks?: Array<{
-    label: string
-    link?: Link
-    _key: string
-  }>
+  subheadline?: string
+  button?: Button
 }
 
 export type PageReference = {
@@ -264,6 +261,13 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   title: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -737,6 +741,13 @@ export type SettingsQueryResult = {
   _updatedAt: string
   _rev: string
   title: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -803,7 +814,7 @@ export type SettingsQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == 'page' && slug.current == "home"][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{        ...,  _type == "callToAction" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoSection" => {    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "hero" => {    ...,    serviceQuickLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "heroSplit" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "servicesList" => {    ...,    services[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "featureCards" => {    ...,    features[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "teamHighlight" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "ctaBanner" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoBlock" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },    },  }
+// Query: *[_type == 'page' && slug.current == "home"][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{        ...,  _type == "callToAction" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoSection" => {    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "hero" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "heroSplit" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "servicesList" => {    ...,    services[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "featureCards" => {    ...,    features[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "teamHighlight" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "ctaBanner" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoBlock" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },    },  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'page'
@@ -899,8 +910,10 @@ export type HomePageQueryResult = {
           _type: 'image'
         }
         headline: string
-        serviceQuickLinks: Array<{
-          label: string
+        subheadline?: string
+        button: {
+          _type: 'button'
+          buttonText?: string
           link: {
             _type: 'link'
             linkType?: 'href' | 'page' | 'post'
@@ -909,8 +922,7 @@ export type HomePageQueryResult = {
             post: string | null
             openInNewTab?: boolean
           } | null
-          _key: string
-        }> | null
+        } | null
       }
     | {
         _key: string
@@ -1068,7 +1080,7 @@ export type HomePageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{        ...,  _type == "callToAction" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoSection" => {    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "hero" => {    ...,    serviceQuickLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "heroSplit" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "servicesList" => {    ...,    services[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "featureCards" => {    ...,    features[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "teamHighlight" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "ctaBanner" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoBlock" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{        ...,  _type == "callToAction" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoSection" => {    content[]{      ...,      markDefs[]{        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  },  _type == "hero" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "heroSplit" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "servicesList" => {    ...,    services[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "featureCards" => {    ...,    features[]{      ...,        button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }    }  },  _type == "teamHighlight" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "ctaBanner" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },  _type == "infoBlock" => {    ...,      button {    ...,      link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }  }  },    },  }
 export type GetPageQueryResult = {
   _id: string
   _type: 'page'
@@ -1164,8 +1176,10 @@ export type GetPageQueryResult = {
           _type: 'image'
         }
         headline: string
-        serviceQuickLinks: Array<{
-          label: string
+        subheadline?: string
+        button: {
+          _type: 'button'
+          buttonText?: string
           link: {
             _type: 'link'
             linkType?: 'href' | 'page' | 'post'
@@ -1174,8 +1188,7 @@ export type GetPageQueryResult = {
             post: string | null
             openInNewTab?: boolean
           } | null
-          _key: string
-        }> | null
+        } | null
       }
     | {
         _key: string
@@ -1333,9 +1346,16 @@ export type GetPageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: navSettingsQuery
-// Query: *[_type == "settings"][0]{    title,    navLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    ctaButton{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  }
+// Query: *[_type == "settings"][0]{    title,    logo,    navLinks[]{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    ctaButton{      ...,        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    }  }
 export type NavSettingsQueryResult = {
   title: string
+  logo: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
   navLinks: Array<{
     label: string
     link: {
@@ -1572,9 +1592,9 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "settings"][0]': SettingsQueryResult
-    '\n  *[_type == \'page\' && slug.current == "home"][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      \n  ...,\n  _type == "callToAction" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoSection" => {\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n    }\n  },\n  _type == "hero" => {\n    ...,\n    serviceQuickLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  },\n  _type == "heroSplit" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "servicesList" => {\n    ...,\n    services[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "featureCards" => {\n    ...,\n    features[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "teamHighlight" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "ctaBanner" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoBlock" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n\n    },\n  }\n': HomePageQueryResult
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      \n  ...,\n  _type == "callToAction" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoSection" => {\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n    }\n  },\n  _type == "hero" => {\n    ...,\n    serviceQuickLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  },\n  _type == "heroSplit" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "servicesList" => {\n    ...,\n    services[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "featureCards" => {\n    ...,\n    features[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "teamHighlight" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "ctaBanner" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoBlock" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n\n    },\n  }\n': GetPageQueryResult
-    '\n  *[_type == "settings"][0]{\n    title,\n    navLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    },\n    ctaButton{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  }\n': NavSettingsQueryResult
+    '\n  *[_type == \'page\' && slug.current == "home"][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      \n  ...,\n  _type == "callToAction" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoSection" => {\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n    }\n  },\n  _type == "hero" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "heroSplit" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "servicesList" => {\n    ...,\n    services[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "featureCards" => {\n    ...,\n    features[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "teamHighlight" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "ctaBanner" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoBlock" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n\n    },\n  }\n': HomePageQueryResult
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      \n  ...,\n  _type == "callToAction" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoSection" => {\n    content[]{\n      ...,\n      markDefs[]{\n        ...,\n        \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n    }\n  },\n  _type == "hero" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "heroSplit" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "servicesList" => {\n    ...,\n    services[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "featureCards" => {\n    ...,\n    features[]{\n      ...,\n      \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n    }\n  },\n  _type == "teamHighlight" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "ctaBanner" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n  _type == "infoBlock" => {\n    ...,\n    \n  button {\n    ...,\n    \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n  }\n\n  },\n\n    },\n  }\n': GetPageQueryResult
+    '\n  *[_type == "settings"][0]{\n    title,\n    logo,\n    navLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    },\n    ctaButton{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    }\n  }\n': NavSettingsQueryResult
     '\n  *[_type == "settings"][0]{\n    title,\n    tagline,\n    founded,\n    address,\n    phone,\n    email,\n    parentCompany,\n    footerNavGroups[]{\n      ...,\n      links[]{\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n      }\n    },\n    legalLinks[]{\n      ...,\n      \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n    },\n    socialLinks\n  }\n': FooterSettingsQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult

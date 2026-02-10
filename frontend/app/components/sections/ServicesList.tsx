@@ -1,5 +1,6 @@
 import SectionLabel from '@/app/components/SectionLabel'
 import Button from '@/app/components/Button'
+import FadeIn from '@/app/components/FadeIn'
 import Image from '@/app/components/SanityImage'
 import {DereferencedLink} from '@/sanity/lib/types'
 import {ExtractPageBuilderType} from '@/sanity/lib/types'
@@ -15,75 +16,69 @@ export default function ServicesList({block}: ServicesListProps) {
   const {label, headline, services} = block
 
   return (
-    <section className="py-16 lg:py-24">
+    <section className="bg-blue py-16 text-white lg:py-24">
       <div className="container">
-        {/* Header */}
-        <div className="mb-12 text-center lg:mb-16">
-          {label && (
-            <div className="flex justify-center">
-              <SectionLabel text={label} />
-            </div>
-          )}
+        {/* Header — left-aligned for editorial feel */}
+        <FadeIn variant="soft-fade" className="mb-8 lg:mb-12">
+          {label && <SectionLabel text={label} className="text-white" />}
           {headline && (
-            <h2 className="mt-4 text-3xl font-normal sm:text-4xl lg:text-section lg:leading-[0.95] lg:tracking-[-0.01em]">
+            <h2 className="text-4xl font-normal md:max-w-[18ch] mt-2 sm:text-5xl lg:text-section leading-[1.2]">
               {headline}
             </h2>
           )}
-        </div>
+        </FadeIn>
 
-        {/* Service rows */}
-        <div className="flex flex-col gap-4">
-          {services?.map((service, i) => (
-            <div
-              key={i}
-              className="group relative overflow-hidden rounded-xl border border-dark/10 transition-all duration-300"
-            >
-              {/* Blue hover overlay */}
-              <div className="absolute inset-0 z-10 translate-y-full bg-blue transition-transform duration-400 ease-out group-hover:translate-y-0 group-focus-within:translate-y-0" />
+        {/* Service cards — 2×2 grid */}
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-y-20 lg:gap-x-4">
+          {services?.map((service, i) => {
+            const hasImage = !!service.image?.asset?._ref
+            const number = String(i + 1).padStart(2, '0')
 
-              {/* Content */}
-              <div className="relative z-20 grid items-center gap-6 p-6 sm:grid-cols-[auto_1fr_auto] lg:p-8">
+            return (
+              <FadeIn key={i} variant="soft-fade" delay={i * 120} className="flex relative flex-col gap-2 h-full">
                 {/* Image */}
-                {service.image?.asset?._ref && (
-                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg sm:h-24 sm:w-24">
+                {hasImage && (
+                  <div className="overflow-hidden rounded-xl">
                     <Image
-                      id={service.image.asset._ref}
+                      id={service.image!.asset!._ref!}
                       alt={service.title || ''}
-                      width={96}
-                      crop={service.image.crop}
-                      hotspot={service.image.hotspot}
+                      width={600}
+                      crop={service.image!.crop}
+                      hotspot={service.image!.hotspot}
                       mode="cover"
-                      className="h-full w-full object-cover"
+                      className="aspect-4/3 w-full object-cover transition-transform duration-500 "
                     />
                   </div>
                 )}
 
-                {/* Title + description */}
-                <div>
-                  <h3 className="text-xl font-normal text-dark transition-colors duration-400 group-hover:text-white group-focus-within:text-white lg:text-card lg:leading-[1.1]">
-                    {service.title}
-                  </h3>
+                {/* Content */}
+                <div className="flex flex-1 flex-col gap-1">
+                  <div className="absolute bg-white size-16 text-center flex justify-center items-center rounded-full -top-2 -right-2 rotate-6">
+                    <span className="font-bold text-lg md:text-2xl text-blue">{number}</span>
+                  </div>
+                  {service.title && (
+                    <h3 className="text-2xl mt-1.5 font-normal sm:text-3xl lg:text-4xl">
+                      {service.title}
+                    </h3>
+                  )}
                   {service.description && (
-                    <p className="mt-2 text-sm text-muted transition-colors duration-400 group-hover:text-white/80 group-focus-within:text-white/80">
+                    <p className="max-w-[95%] text-lg leading-[140%] text-white/90">
                       {service.description}
                     </p>
                   )}
+                  {service.button?.buttonText && service.button?.link && (
+                    <div className="mt-auto pt-3">
+                      <Button
+                        text={service.button.buttonText}
+                        link={service.button.link as DereferencedLink}
+                        variant="white"
+                      />
+                    </div>
+                  )}
                 </div>
-
-                {/* Button */}
-                {service.button?.buttonText && service.button?.link && (
-                  <div className="shrink-0">
-                    <Button
-                      text={service.button.buttonText}
-                      link={service.button.link as DereferencedLink}
-                      variant="ghost"
-                      className="transition-colors duration-400 group-hover:border-white/40 group-hover:text-white group-focus-within:border-white/40 group-focus-within:text-white"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+              </FadeIn>
+            )
+          })}
         </div>
       </div>
     </section>

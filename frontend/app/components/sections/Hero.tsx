@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import ResolvedLink from '@/app/components/ResolvedLink'
-import {Plus} from '@/app/components/icons'
+import Button from '@/app/components/Button'
+import {PawPrint} from '@/app/components/icons'
 import {urlForImage} from '@/sanity/lib/utils'
 import {DereferencedLink} from '@/sanity/lib/types'
 import {ExtractPageBuilderType} from '@/sanity/lib/types'
@@ -13,7 +13,7 @@ type HeroProps = {
 }
 
 export default function Hero({block}: HeroProps) {
-  const {backgroundImage, headline, serviceQuickLinks} = block
+  const {backgroundImage, headline, subheadline, button} = block
 
   const imageUrl = backgroundImage?.asset?._ref
     ? urlForImage(backgroundImage)?.width(1920).height(1080).fit('crop').url()
@@ -27,7 +27,7 @@ export default function Hero({block}: HeroProps) {
           alt={headline || ''}
           fill
           priority
-          className="object-cover"
+          className=" object-cover"
           sizes="100vw"
         />
       )}
@@ -37,29 +37,50 @@ export default function Hero({block}: HeroProps) {
 
       {/* Content */}
       <div className="container relative flex h-full items-end pb-16 lg:pb-20">
-        <div className="flex w-full flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          {/* Headline */}
+        <div className="flex flex-col gap-6">
+          {/* Headline — clip reveal */}
           {headline && (
-            <h1 className="max-w-4xl text-4xl font-normal text-white sm:text-5xl lg:text-hero lg:leading-[0.9] lg:tracking-[-0.012em]">
+            <h1 className="animate-clip-reveal delay-3 max-w-4xl text-5xl font-normal text-white sm:text-6xl md:text-7xl lg:text-[84px] lg:leading-[1] md:max-w-[16ch] tracking-tight">
               {headline}
             </h1>
           )}
 
-          {/* Quick links */}
-          {serviceQuickLinks && serviceQuickLinks.length > 0 && (
-            <nav className="flex flex-col gap-3">
-              {serviceQuickLinks.map((item, i) => (
-                <ResolvedLink
-                  key={i}
-                  link={item.link as DereferencedLink}
-                  className="flex items-center gap-2 text-sm text-white/80 transition-colors hover:text-white"
-                >
-                  <Plus className="h-3 w-3" />
-                  <span>{item.label}</span>
-                </ResolvedLink>
-              ))}
-            </nav>
+          {/* Subheadline — soft fade */}
+          {subheadline && (
+            <p className="animate-soft-fade delay-5 max-w-2xl text-lg text-white/80 sm:text-xl">
+              {subheadline}
+            </p>
           )}
+
+          {/* CTA Button — soft fade */}
+          {button?.buttonText && button?.link && (
+            <div className="animate-soft-fade delay-5">
+              <Button
+                text={button.buttonText}
+                link={button.link as DereferencedLink}
+                className="px-8 py-4 text-base"
+              />
+            </div>
+          )}
+
+          {/* Social proof — soft fade */}
+          <div className="animate-soft-fade delay-6 flex items-center gap-4">
+            <div className="flex -space-x-2">
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 backdrop-blur-sm"
+                >
+                  <PawPrint className="h-4 w-4 text-cream" />
+                </div>
+              ))}
+            </div>
+            <p className="text-sm leading-tight text-white/80">
+              <span className="font-medium text-white">Trusted by hundreds</span>
+              <br />
+              of Cottage Grove families
+            </p>
+          </div>
         </div>
       </div>
     </section>

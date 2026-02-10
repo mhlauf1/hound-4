@@ -2,23 +2,6 @@
 
 @plugin "@tailwindcss/typography";
 
-/* Switzer Variable — self-hosted from Fontshare */
-@font-face {
-  font-family: 'Switzer Variable';
-  src: url('/fonts/SwitzerVariable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Switzer Variable';
-  src: url('/fonts/SwitzerVariable-Italic.woff2') format('woff2');
-  font-weight: 100 900;
-  font-display: swap;
-  font-style: italic;
-}
-
 @layer base {
   h1,
   h2,
@@ -33,7 +16,7 @@
 @utility container {
   margin-inline: auto;
   width: 100%;
-  max-width: 80rem;
+  max-width: 90rem;
   padding-inline: 1.25rem;
 
   @media (min-width: 640px) {
@@ -45,19 +28,19 @@
 
 @theme {
   /* Colors */
-  --color-cream: #FFFCF5;
-  --color-blue: #84AFE7;
+  --color-cream: #fffcf5;
+  --color-blue: #84afe7;
   --color-dark: #363440;
-  --color-light: #F3F4F4;
-  --color-muted: #363440B3;
+  --color-light: #f3f4f4;
+  --color-muted: #363440b3;
   --color-white: #fff;
   --color-black: #000;
 
   /* Typography — Font Family */
-  --font-sans: 'Switzer Variable', 'Switzer', system-ui, sans-serif;
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
 
   /* Typography — Font Size / Line Height / Letter Spacing */
-  --font-size-hero: 5.25rem;
+  --font-size-hero: 7.25rem;
   --font-size-hero--line-height: 0.9;
   --font-size-hero--letter-spacing: -0.012em;
 
@@ -82,6 +65,51 @@
   --default-transition-duration: 250ms;
 }
 
+/* Hero — cinematic image settle */
+@keyframes hero-image {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+
+@utility animate-hero-image {
+  animation: hero-image 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+/* Hero — headline clip reveal (text slides up into view) */
+@keyframes clip-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: translateY(12px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+@utility animate-clip-reveal {
+  animation: clip-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hero — soft fade for supporting elements (no movement) */
+@keyframes soft-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@utility animate-soft-fade {
+  animation: soft-fade 1s ease both;
+}
+
+/* Stagger delay utilities */
+@utility delay-0 { animation-delay: 0ms; }
+@utility delay-1 { animation-delay: 100ms; }
+@utility delay-2 { animation-delay: 200ms; }
+@utility delay-3 { animation-delay: 400ms; }
+@utility delay-4 { animation-delay: 600ms; }
+@utility delay-5 { animation-delay: 800ms; }
+@utility delay-6 { animation-delay: 1000ms; }
+
 /* Marquee animation */
 @keyframes marquee {
   0% {
@@ -99,5 +127,18 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation-play-state: paused;
+  }
+  .animate-hero-image,
+  .animate-clip-reveal,
+  .animate-soft-fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+  [aria-label="Mobile menu"],
+  [aria-label="Mobile menu"] * {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
   }
 }

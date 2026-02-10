@@ -1,5 +1,6 @@
 import './globals.css'
 
+import {Bricolage_Grotesque} from 'next/font/google'
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
 import {draftMode} from 'next/headers'
@@ -46,11 +47,17 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-bricolage',
+})
+
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className="bg-cream text-dark">
+    <html lang="en" className={`${bricolage.variable} bg-cream text-dark`}>
       <body>
         <Toaster />
         {isDraftMode && (

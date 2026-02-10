@@ -28,6 +28,13 @@ export const settings = defineType({
       group: 'general',
     }),
     defineField({
+      name: 'logo',
+      title: 'Logo',
+      description: 'Site logo displayed in the navigation bar.',
+      type: 'image',
+      group: 'general',
+    }),
+    defineField({
       name: 'description',
       description: 'Used in metadata.',
       title: 'Description',

@@ -22,7 +22,7 @@ export default function FeatureCards({block}: FeatureCardsProps) {
           <div>
             {label && <SectionLabel text={label} />}
             {headline && (
-              <h2 className="mt-4 text-3xl font-normal sm:text-4xl lg:text-section lg:leading-[0.95] lg:tracking-[-0.01em]">
+              <h2 className="mt-4 text-3xl font-normal sm:text-4xl lg:text-5xl max-w-[16ch] leading-[1.1] lg:tracking-tight">
                 {headline}
               </h2>
             )}
@@ -43,10 +43,7 @@ export default function FeatureCards({block}: FeatureCardsProps) {
         {/* Cards grid */}
         <div className="grid gap-6 sm:grid-cols-2">
           {features?.map((feature, i) => (
-            <div
-              key={i}
-              className="flex flex-col overflow-hidden rounded-xl bg-cream"
-            >
+            <div key={i} className="flex flex-col overflow-hidden rounded-xl bg-cream">
               {feature.image?.asset?._ref && (
                 <div className="aspect-[4/3] overflow-hidden">
                   <Image

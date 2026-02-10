@@ -21,30 +21,14 @@ export const hero = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'serviceQuickLinks',
-      title: 'Service Quick Links',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Label',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'link',
-              title: 'Link',
-              type: 'link',
-            }),
-          ],
-          preview: {
-            select: {title: 'label'},
-          },
-        },
-      ],
+      name: 'subheadline',
+      title: 'Subheadline',
+      type: 'string',
+    }),
+    defineField({
+      name: 'button',
+      title: 'Button',
+      type: 'button',
     }),
   ],
   preview: {

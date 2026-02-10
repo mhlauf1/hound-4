@@ -16,12 +16,12 @@ export default function Marquee({block}: MarqueeProps) {
   const repeated = [...items, ...items, ...items, ...items]
 
   return (
-    <section className="overflow-hidden border-y border-dark/10 bg-cream py-5">
-      <div className="animate-marquee flex whitespace-nowrap">
+    <section className="overflow-hidden bg-blue py-5">
+      <div className="animate-marquee gap-8 flex whitespace-nowrap">
         {repeated.map((item, i) => (
           <span key={i} className="flex items-center">
-            <span className="mx-6 inline-block h-2 w-2 shrink-0 rotate-45 bg-blue" aria-hidden="true" />
-            <span className="text-sm font-medium uppercase tracking-[0.1em] text-dark">
+            <span className="mx-20 inline-block size-4 shrink-0 bg-white" aria-hidden="true" />
+            <span className="text-7xl md:text-[104px] font-medium tracking-tight text-white">
               {item}
             </span>
           </span>

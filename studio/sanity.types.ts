@@ -145,11 +145,8 @@ export type Hero = {
     _type: 'image'
   }
   headline: string
-  serviceQuickLinks?: Array<{
-    label: string
-    link?: Link
-    _key: string
-  }>
+  subheadline?: string
+  button?: Button
 }
 
 export type PageReference = {
@@ -264,6 +261,13 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   title: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   description?: Array<{
     children?: Array<{
       marks?: Array<string>

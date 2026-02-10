@@ -5,7 +5,7 @@ import {DereferencedLink} from '@/sanity/lib/types'
 type ButtonProps = {
   text: string
   link: DereferencedLink
-  variant?: 'primary' | 'ghost'
+  variant?: 'primary' | 'white' | 'ghost'
   className?: string
 }
 
@@ -15,8 +15,8 @@ export default function Button({text, link, variant = 'primary', className = ''}
 
   const variants = {
     primary: 'bg-blue text-white px-6 py-3 hover:bg-blue/90',
-    ghost:
-      'border border-dark/20 text-dark px-6 py-3 hover:bg-dark hover:text-white',
+    white: 'bg-white text-dark px-6 py-3 hover:bg-white/90',
+    ghost: 'border border-dark/20 text-dark px-6 py-3 hover:bg-dark hover:text-white',
   }
 
   return (
