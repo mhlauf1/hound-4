@@ -88,7 +88,7 @@ export default function NavBar({settings}: NavBarProps) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        mobileOpen ? 'bg-transparent' : scrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
       }`}
     >
       <div className="container">
