@@ -87,8 +87,12 @@ export default function NavBar({settings}: NavBarProps) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        mobileOpen ? 'bg-transparent' : scrolled ? 'bg-cream/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 ${
+        mobileOpen
+          ? 'bg-cream'
+          : scrolled
+            ? 'bg-cream/95 backdrop-blur-md shadow-sm transition-all duration-300'
+            : 'bg-transparent transition-all duration-300'
       }`}
     >
       <div className="container">
@@ -120,7 +124,7 @@ export default function NavBar({settings}: NavBarProps) {
             type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
             className={`flex h-10 w-10 items-center justify-center ${
-              mobileOpen ? 'text-dark' : scrolled ? 'text-dark' : 'text-white'
+              scrolled || mobileOpen ? 'text-dark' : 'text-white'
             }`}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
@@ -203,10 +207,10 @@ export default function NavBar({settings}: NavBarProps) {
       <div
         ref={navRef}
         aria-label="Mobile menu"
-        className={`fixed inset-0 z-60 bg-cream transition-[transform,opacity] duration-500 lg:hidden ${
+        className={`fixed inset-0 z-60 bg-cream transition-transform duration-500 lg:hidden ${
           mobileOpen
-            ? 'translate-y-0 opacity-100 pointer-events-auto'
-            : '-translate-y-full opacity-0 pointer-events-none'
+            ? 'translate-x-0 pointer-events-auto'
+            : 'translate-x-full pointer-events-none'
         }`}
         style={{transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'}}
       >
@@ -215,13 +219,7 @@ export default function NavBar({settings}: NavBarProps) {
             <ResolvedLink
               key={i}
               link={item.link as DereferencedLink}
-              className="group flex items-center justify-between border-b border-dark/10 py-5 text-3xl text-dark transition-[transform,opacity] duration-500 sm:text-4xl"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: mobileOpen ? `${150 + i * 75}ms` : '0ms',
-                transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
-                opacity: mobileOpen ? 1 : 0,
-              }}
+              className="group flex items-center justify-between border-b border-dark/10 py-5 text-3xl text-dark sm:text-4xl"
               onClick={closeMobile}
             >
               {item.label}
@@ -230,17 +228,7 @@ export default function NavBar({settings}: NavBarProps) {
           ))}
 
           {settings?.ctaButton?.buttonText && settings.ctaButton.link && (
-            <div
-              className="mt-10 transition-[transform,opacity] duration-500"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: mobileOpen
-                  ? `${150 + (settings.navLinks?.length ?? 0) * 75}ms`
-                  : '0ms',
-                transform: mobileOpen ? 'translateY(0)' : 'translateY(20px)',
-                opacity: mobileOpen ? 1 : 0,
-              }}
-            >
+            <div className="mt-10">
               <ResolvedLink
                 link={settings.ctaButton.link as DereferencedLink}
                 className="inline-flex items-center gap-2 rounded-full bg-blue px-8 py-4 text-lg font-medium text-white transition-colors hover:bg-blue/90"
