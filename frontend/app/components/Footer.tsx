@@ -12,30 +12,35 @@ export default async function Footer() {
 
   return (
     <footer className="bg-light">
-      <div className="container py-16 lg:py-24">
+      <div className="container py-20 lg:py-28">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-dark">
-              {settings?.title || 'Hound Around Resort'}
-            </h3>
+            <div className="mb-6">
+              <h3 className="text-2xl font-semibold tracking-tight text-dark">
+                Hound Around
+              </h3>
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-dark">
+                Resort
+              </span>
+            </div>
             {settings?.tagline && (
-              <p className="mt-3 text-sm text-muted leading-relaxed">{settings.tagline}</p>
+              <p className="text-base text-muted leading-relaxed max-w-xs">{settings.tagline}</p>
             )}
           </div>
 
           {/* Nav group columns */}
           {settings?.footerNavGroups?.map((group, i) => (
             <div key={i}>
-              <h4 className="text-label uppercase tracking-[0.1em] font-semibold text-dark">
+              <h4 className="text-lg font-semibold text-dark">
                 {group.title}
               </h4>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-6 space-y-4">
                 {group.links?.map((item, j) => (
                   <li key={j}>
                     <ResolvedLink
                       link={item.link as DereferencedLink}
-                      className="text-sm text-muted hover:text-dark transition-colors"
+                      className="text-base text-muted hover:text-dark transition-colors"
                     >
                       {item.label}
                     </ResolvedLink>
@@ -47,12 +52,12 @@ export default async function Footer() {
 
           {/* Contact column */}
           <div>
-            <h4 className="text-label uppercase tracking-[0.1em] font-semibold text-dark">
+            <h4 className="text-lg font-semibold text-dark">
               Contact
             </h4>
-            <div className="mt-4 space-y-3 text-sm text-muted">
+            <div className="mt-6 space-y-4 text-base text-muted">
               {settings?.address && (
-                <p className="whitespace-pre-line">{settings.address}</p>
+                <p className="whitespace-pre-line leading-relaxed">{settings.address}</p>
               )}
               {settings?.phone && (
                 <p>
@@ -76,15 +81,15 @@ export default async function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-dark/10">
         <div className="container flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
-            <span>&copy; {currentYear} {settings?.title || 'Hound Around Resort'}</span>
+          <p className="text-sm text-muted">
+            &copy; {currentYear} {settings?.title || 'Hound Around Resort'}.{' '}
             {settings?.parentCompany && (
               <span>{settings.parentCompany}</span>
             )}
-          </div>
+          </p>
 
           {settings?.legalLinks && settings.legalLinks.length > 0 && (
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
+            <div className="flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted">
               {settings.legalLinks.map((item, i) => (
                 <ResolvedLink
                   key={i}

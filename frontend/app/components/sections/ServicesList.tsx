@@ -35,10 +35,15 @@ export default function ServicesList({block}: ServicesListProps) {
             const number = String(i + 1).padStart(2, '0')
 
             return (
-              <FadeIn key={i} variant="soft-fade" delay={i * 120} className="flex relative flex-col gap-2 h-full">
+              <FadeIn
+                key={i}
+                variant="soft-fade"
+                delay={i * 120}
+                className="flex relative flex-col gap-2 h-full"
+              >
                 {/* Image */}
                 {hasImage && (
-                  <div className="overflow-hidden rounded-xl">
+                  <div className="overflow-hidden ">
                     <Image
                       id={service.image!.asset!._ref!}
                       alt={service.title || ''}
@@ -53,7 +58,7 @@ export default function ServicesList({block}: ServicesListProps) {
 
                 {/* Content */}
                 <div className="flex flex-1 flex-col gap-1">
-                  <div className="absolute bg-white size-16 text-center flex justify-center items-center rounded-full -top-2 -right-2 rotate-6">
+                  <div className="absolute bg-white size-16 text-center flex justify-center items-center rounded-full -top-2.5 -right-2.5 rotate-6">
                     <span className="font-bold text-lg md:text-2xl text-blue">{number}</span>
                   </div>
                   {service.title && (

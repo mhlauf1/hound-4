@@ -34,7 +34,7 @@ export default function HeroSplit({block}: HeroSplitProps) {
                 </h2>
               )}
             </FadeIn>
-            <FadeIn variant="soft-fade" delay={150} className="bg-blue-50 p-12 rounded-xl py-12">
+            <FadeIn variant="soft-fade" delay={150} className="bg-blue-50 p-12  py-12">
               {description && (
                 <PortableText
                   value={description as PortableTextBlock[]}
@@ -53,10 +53,10 @@ export default function HeroSplit({block}: HeroSplitProps) {
           {/* Right image */}
           <FadeIn variant="soft-fade" delay={200} className="relative">
             {showBlueAccent && (
-              <div className="absolute -top-4 -right-4 -bottom-3 left-8 -z-10 rounded-xl bg-blue lg:-top-6 lg:-right-6 lg:-bottom-4 lg:left-12" />
+              <div className="absolute -top-4 -right-4 -bottom-3 left-8 -z-10  bg-blue lg:-top-6 lg:-right-6 lg:-bottom-4 lg:left-12" />
             )}
             {image?.asset?._ref && (
-              <div className="max-h-[500px] lg:max-h-[700px] overflow-hidden rounded-xl">
+              <div className="max-h-[500px] lg:max-h-[700px] overflow-hidden ">
                 <Image
                   id={image.asset._ref}
                   alt={headline || ''}
@@ -64,7 +64,7 @@ export default function HeroSplit({block}: HeroSplitProps) {
                   crop={image.crop}
                   hotspot={image.hotspot}
                   mode="cover"
-                  className="rounded-xl"
+                  className=""
                 />
               </div>
             )}

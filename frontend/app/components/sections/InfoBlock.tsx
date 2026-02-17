@@ -18,15 +18,15 @@ export default function InfoBlock({block}: InfoBlockProps) {
   const {label, headline, body, button, image, secondaryBody, address, phone} = block
 
   return (
-    <section className="py-16 lg:py-24">
+    <section className="pb-16 lg:pb-24">
       <div className="container">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Left column */}
-          <div className="flex flex-col gap-6">
+          {/* Left column — text content */}
+          <div className="flex flex-col gap-6 pt-16 lg:pt-24">
             {label && <SectionLabel text={label} />}
 
             {headline && (
-              <h2 className="text-3xl font-normal sm:text-4xl lg:text-section lg:leading-[0.95] lg:tracking-[-0.01em]">
+              <h2 className="text-3xl font-normal sm:text-4xl lg:text-5xl lg:leading-[1.05] max-w-[15ch] tracking-tight">
                 {headline}
               </h2>
             )}
@@ -45,10 +45,10 @@ export default function InfoBlock({block}: InfoBlockProps) {
             )}
           </div>
 
-          {/* Right column */}
-          <div className="flex flex-col gap-8">
+          {/* Right column — overlapping image + secondary content */}
+          <div className="flex flex-col gap-6">
             {image?.asset?._ref && (
-              <div className="overflow-hidden rounded-xl">
+              <div className="md:-mt-24 lg:-mt-40 overflow-hidden md:h-[70vh] border-2 border-white relative z-10">
                 <Image
                   id={image.asset._ref}
                   alt={headline || ''}
@@ -64,14 +64,15 @@ export default function InfoBlock({block}: InfoBlockProps) {
             {secondaryBody && (
               <PortableText
                 value={secondaryBody as PortableTextBlock[]}
-                className="text-sm text-muted"
+                className="text-body text-muted prose-p:text-muted"
               />
             )}
 
-            <div className="space-y-2 text-sm text-muted">
+            <div className="space-y-4 text-body text-muted">
               {address && <p className="whitespace-pre-line">{address}</p>}
               {phone && (
                 <p>
+                  Call us at{' '}
                   <a
                     href={`tel:${phone.replace(/\D/g, '')}`}
                     className="hover:text-dark transition-colors"

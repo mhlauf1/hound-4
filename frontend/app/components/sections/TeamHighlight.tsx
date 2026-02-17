@@ -18,11 +18,11 @@ export default function TeamHighlight({block}: TeamHighlightProps) {
     <section className="py-16 lg:py-24">
       <div className="container">
         {/* Header */}
-        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:mb-12">
+        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:mb-8">
           <div>
             {label && <SectionLabel text={label} />}
             {headline && (
-              <h2 className="mt-4 text-3xl font-normal sm:text-4xl lg:text-section lg:leading-[0.95] lg:tracking-[-0.01em]">
+              <h2 className="mt-4 text-3xl font-normal sm:text-4xl md:text-5xl lg:text-section lg:leading-[0.95] lg:tracking-tight">
                 {headline}
               </h2>
             )}
@@ -30,18 +30,14 @@ export default function TeamHighlight({block}: TeamHighlightProps) {
 
           {button?.buttonText && button?.link && (
             <div className="shrink-0">
-              <Button
-                text={button.buttonText}
-                link={button.link as DereferencedLink}
-                variant="ghost"
-              />
+              <Button text={button.buttonText} link={button.link as DereferencedLink} />
             </div>
           )}
         </div>
 
         {/* Team photo */}
         {teamPhoto?.asset?._ref && (
-          <div className="overflow-hidden rounded-xl">
+          <div className="overflow-hidden">
             <Image
               id={teamPhoto.asset._ref}
               alt={headline || 'Our team'}

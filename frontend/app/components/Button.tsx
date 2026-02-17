@@ -11,12 +11,12 @@ type ButtonProps = {
 
 export default function Button({text, link, variant = 'primary', className = ''}: ButtonProps) {
   const base =
-    'inline-flex items-center gap-2 rounded-full text-sm font-medium transition-colors duration-200'
+    'inline-flex items-center gap-2.5 rounded-full text-base font-medium cursor-pointer transition-all duration-200 hover:opacity-85'
 
   const variants = {
-    primary: 'bg-blue text-white px-6 py-3 hover:bg-blue/90',
-    white: 'bg-white text-dark px-6 py-3 hover:bg-white/90',
-    ghost: 'border border-dark/20 text-dark px-6 py-3 hover:bg-dark hover:text-white',
+    primary: 'bg-blue text-white px-8 py-3.5',
+    white: 'bg-white text-dark px-8 py-3.5',
+    ghost: 'border border-dark/20 text-dark px-8 py-3.5 hover:bg-dark hover:text-white',
   }
 
   return (

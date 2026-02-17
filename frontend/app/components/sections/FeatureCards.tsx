@@ -43,7 +43,7 @@ export default function FeatureCards({block}: FeatureCardsProps) {
         {/* Cards grid */}
         <div className="grid gap-6 sm:grid-cols-2">
           {features?.map((feature, i) => (
-            <div key={i} className="flex flex-col overflow-hidden rounded-xl bg-cream">
+            <div key={i} className="flex flex-col overflow-hidden  bg-cream">
               {feature.image?.asset?._ref && (
                 <div className="aspect-[4/3] overflow-hidden">
                   <Image
@@ -59,7 +59,7 @@ export default function FeatureCards({block}: FeatureCardsProps) {
               )}
               <div className="flex flex-col gap-4 p-6 lg:p-8">
                 {feature.title && (
-                  <h3 className="text-xl font-normal lg:text-card lg:leading-[1.1]">
+                  <h3 className="text-xl font-normal lg:text-4xl lg:leading-[1.1]">
                     {feature.title}
                   </h3>
                 )}
@@ -68,7 +68,6 @@ export default function FeatureCards({block}: FeatureCardsProps) {
                     <Button
                       text={feature.button.buttonText}
                       link={feature.button.link as DereferencedLink}
-                      variant="ghost"
                     />
                   </div>
                 )}

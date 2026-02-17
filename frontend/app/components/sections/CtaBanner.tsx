@@ -33,33 +33,27 @@ export default function CtaBanner({block}: CtaBannerProps) {
     : null
 
   return (
-    <section className="relative w-full overflow-hidden py-24 lg:py-32">
-      {imageUrl && (
-        <Image
-          src={imageUrl}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-      )}
+    <section className="relative w-full min-h-[70vh] lg:h-[80vh] pb-32 lg:pb-48">
+      {imageUrl && <Image src={imageUrl} alt="" fill className="object-cover" sizes="100vw" />}
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-dark/70" />
+      {/* Subtle overlay for text legibility */}
+      <div className="absolute inset-0 bg-dark/30" />
 
-      {/* Content */}
-      <div className="container relative text-center">
-        {headline && (
-          <h2 className="mx-auto max-w-3xl text-3xl font-normal text-white sm:text-4xl lg:text-section lg:leading-[0.95]">
-            {parseHighlight(headline)}
-          </h2>
-        )}
+      {/* Content — right-aligned */}
+      <div className="container relative flex h-full min-h-[60vh] lg:min-h-[80vh] items-center justify-end">
+        <div className="max-w-2xl text-right">
+          {headline && (
+            <h2 className=" font-normal text-white text-start text-5xl lg:text-[4.5rem] lg:leading-[1.05]">
+              {parseHighlight(headline)}
+            </h2>
+          )}
 
-        {button?.buttonText && button?.link && (
-          <div className="mt-8">
-            <Button text={button.buttonText} link={button.link as DereferencedLink} />
-          </div>
-        )}
+          {button?.buttonText && button?.link && (
+            <div className="mt-8 flex ">
+              <Button text={button.buttonText} link={button.link as DereferencedLink} />
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )
